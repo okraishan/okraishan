@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FRAME - Creative Media Magazine</title>
+
+    <!-- SEO MEAT TAGS -->
+    <meta name="description"
+        content="FRAME is a creative media magazine dedicated to visual storytelling. Discover photography, design, filmaking, and brand indentity stories from creators worldwide.">
+    <meta name="keywords" content="creative mdeia, photography, visual storytelling, design, filmaking, brand identity, FRAME magazine">
+    <meta name="author" content="FRAME Magazine - CMI-3315-002 Web Design">
+
+    <!-- OPEN GRAPH - OG -->
+     <meta property="og:type" content="website">
+     <meta property="og:url" content="https://okraishan.github.io/frame-project/">
+     <meta property="og:title" content="FRAME - Creative Media Magazine">
+     <meta property="og:description" content="FRAME is a creative media magazine dedicated to visual storytelling. Discover photography, design, filmaking, and brand indentity stories from creators worldwide.">
+     <meta property="og:image" content="https://okraishan.github.io/frame-project/assets/images/frane-og.webp">  <!-- W:1200 - H:630 -->
+
+     <!-- TWITTER TAGS -->
+      <meta name="twitter:card" content="summary_large_image">
+      <meta name="twitter:title" content="FRAME - Creative Media Magazine">
+      <meta name="twitter:description" content="FRAME is a creative media magazine dedicated to visual storytelling. Discover photography, design, filmaking, and brand indentity stories from creators worldwide.">
+      <meta name="twitter:image" content="https://okraishan.github.io/frame-project/assets/images/frane-og.webp">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Syne:wght@400..800&display=swap"
+        rel="stylesheet">
+    <!-- ICONs -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="styles.css">
+    <script role="javascrit" href=""></script>
+
+    <!-- Subscribe Modal Styles -->
+    <style>
+        .subscribe-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .subscribe-modal[hidden] { display: none; }
+
+        .modal-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-box {
+            position: relative;
+            background: #111;
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            padding: 2.5rem 2rem;
+            width: 100%;
+            max-width: 480px;
+            max-height: 90vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #2a2a2a transparent;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 1.25rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0.25rem;
+            transition: color 0.2s;
+        }
+
+        .modal-close:hover { color: #fff; }
+
+        .modal-heading {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(1.75rem, 4vw, 2.25rem);
+            font-weight: 700;
+            line-height: 1.1;
+            color: #fff;
+            margin: 0.5rem 0 1rem;
+        }
+
+        .modal-desc {
+            color: #888;
+            font-size: 0.9rem;
+            line-height: 1.65;
+            margin-bottom: 1.75rem;
+        }
+
+        .modal-form { display: flex; flex-direction: column; gap: 0.75rem; }
+
+        .modal-plan-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin: 0.25rem 0;
+        }
+
+        .plan-option {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            padding: 0.85rem 1rem;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .plan-option:has(input:checked) { border-color: #fff; }
+        .plan-option input[type="radio"] { display: none; }
+
+        .plan-label {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .plan-desc { font-size: 0.75rem; color: #666; }
+
+        .modal-submit { margin-top: 0.5rem; width: 100%; justify-content: center; }
+
+        .modal-success {
+            text-align: center;
+            padding: 2.5rem 0 1rem;
+            color: #fff;
+        }
+
+        .modal-success[hidden] { display: none; }
+
+        .modal-success .success-icon {
+            font-size: 3rem;
+            color: #4ade80;
+            display: block;
+            margin-bottom: 1.25rem;
+        }
+
+        .modal-success h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-success p { color: #888; font-size: 0.9rem; }
+
+        .modal-box :focus-visible {
+            outline: 2px solid #fff;
+            outline-offset: 2px;
+        }
+
+        @keyframes modal-in {
+            from { opacity: 0; transform: scale(0.96) translateY(10px); }
+            to   { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .subscribe-modal:not([hidden]) .modal-box {
+            animation: modal-in 0.22s ease-out;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="page-header" role="banner">
+        <span class="nav-logo"><i class="fa-solid fa-camera" aria-hidden="true"></i> frame</span>
+
+        <input type="checkbox" id="ham-toggle" class="ham-checkbox">
+        <label for="ham-toggle" class="ham-btn" aria-label="Toggle naviagtion menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+
+        <nav class="main-nav" aria-label="Main naviagtion">
+            <a href="index.html" class="nav-link active" aria-current="page">Home</a>
+            <a href="about.html" class="nav-link">Podcast</a>
+            <a href="work.html" class="nav-link">Videos</a>
+            <a href="contact.html" class="nav-link">Blog</a>
+        </nav>
+        <a href="#" class="nav-cta" data-subscribe aria-haspopup="dialog">Subscribe</a>
+    </header>
+
+    <!-- MAIN -->
+    <main>
+
+        <!-- HERO -->
+        <section class="hero-section" role="Hero banner">
+            <!-- Background Video -->
+            <video class="hero-video" autoplay muted loop playsinline aria-hidden="true">
+                <source src="assets/videos/hero-video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="hero-content">
+                <p class="hero-label">Creative Media Magazine</p>
+                <h1 class="hero-title">See the World<br>Differently</h1>
+                <p class="hero-subtitle">Visual stories. Bold perspectives. A magazine for creators who see beauty in
+                    the everyday and turn moments into art.</p>
+                <div class="hero-buttons">
+                    <a href="#" class="hero-button">Start Reading <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="#" class="hero-button-outline">Learn More</a>
+                </div>
+            </div>
+            <div class="hero-image-wrapper">
+                <img src="https://picsum.photos/seed/frame-hero/600/500" alt="Creative photography showcase"
+                    class="hero-image">
+            </div>
+        </section>
+
+        <!-- ABOUT -->
+        <section class="about-section" aria-labelledby="about-heading">
+            <h2 class="about-heading" id="about-heading">Where Creativity<br>Meets Community</h2>
+            <p class="about-description">FRAME is a creative media magazine dedicated to visual storytelling. We bring
+                together photographers, designers, and filmmakers who see the world differently and turn moments into
+                art.</p>
+            <div class="stats-row">
+                <div class="stat-box">
+                    <p class="stat-number">50K<span class="stat-accent">+</span></p>
+                    <p class="stat-label">Monthly Readers</p>
+                </div>
+                <div class="stat-box">
+                    <p class="stat-number">200<span class="stat-accent">+</span></p>
+                    <p class="stat-label">Published Stories</p>
+                </div>
+                <div class="stat-box">
+                    <p class="stat-number">40<span class="stat-accent">+</span></p>
+                    <p class="stat-label">Contributors</p>
+                </div>
+            </div>
+
+            <div class="section-link-wrap">
+                <a href="#" class="section-link">More About FRAME <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+        </section>
+
+        <!-- ARTICLES -->
+        <section id="articles" class="article-section" aria-labelledby="article-heading">
+            <div class="section-intro">
+                <p class="section-label"><i class="fa-solid fa-newspaper" aria-hidden="true"></i> Featured</p>
+                <h2 class="section-heading" id="article-heading">Latest Stories</h2>
+            </div>
+
+            <!-- Featured Article -->
+            <article class="article-card">
+                <header class="article-card-header">
+                    <a href="#"><img src="https://picsum.photos/seed/golden/800/400"
+                            alt="Golden hour photography of a city skyline" class="article-image"></a>
+                    <span class="article-tag"><i class="fa-solid fa-camera" aria-hidden="true"></i> Photography</span>
+                </header>
+                <div class="article-body">
+                    <p class="article-category"><i class="fa-solid fa-camera" aria-hidden="true"></i> Photography &middot; 5 min read</p>
+                    <h3 class="article-title"><a href="#">The Golden Hour Guide: Mastering Natural Light</a></h3>
+                    <p class="article-text">Every photographer chases that perfect light — the warm, soft glow that
+                        transforms ordinary scenes into something cinematic. Golden hour happens twice a day, and
+                        learning to harness it is the single most impactful skill you can develop.</p>
+                </div>
+                <footer class="article-card-footer">
+                    <span class="article-meta"><i class="fa-solid fa-user" aria-hidden="true"></i> Sarah Chen</span>
+                    <span class="article-meta"><i class="fa-solid fa-calendar" aria-hidden="true"></i> <time datetime="2026-01-15">Jan 15, 2026</time></span>
+                </footer>
+            </article>
+
+            <!-- Two smaller articles -->
+            <div class="articles-grid">
+
+                <article class="article-card article-small">
+                    <header class="article-card-header">
+                        <a href="#"><img src="https://picsum.photos/seed/brand-design/600/300"
+                                alt="Minimalist brand design workspace" class="article-image"></a>
+                        <span class="article-tag"><i class="fa-solid fa-palette"></i> Design</span>
+                    </header>
+                    <div class="article-body">
+                        <p class="article-category"><i class="fa-solid fa-palette"></i> Design &middot; 3 min read</p>
+                        <h3 class="article-title"><a href="#">Minimalism in Modern Branding</a></h3>
+                        <p class="article-text">Less truly is more. Discover how top agencies are stripping back visual
+                            noise to create brands that resonate in the age of information overload.</p>
+                    </div>
+                    <footer class="article-card-footer">
+                        <span class="article-meta"><i class="fa-solid fa-user" aria-hidden="true"></i> Alex Rivera</span>
+                        <span class="article-meta"><i class="fa-solid fa-calendar" aria-hidden="true"></i> <time datetime="2026-01-18">Jan 18, 2026</time></span>
+                    </footer>
+                </article>
+
+                <article class="article-card article-small">
+                    <header class="article-card-header">
+                        <a href="#"><img src="https://picsum.photos/seed/street-photo/600/300"
+                                alt="Street photography in black and white" class="article-image"></a>
+                        <span class="article-tag"><i class="fa-solid fa-camera" aria-hidden="true"></i> Photography</span>
+                    </header>
+                    <div class="article-body">
+                        <p class="article-category"><i class="fa-solid fa-camera" aria-hidden="true"></i> Photography &middot; 4 min read
+                        </p>
+                        <h3 class="article-title"><a href="#">The Art of Street Photography</a></h3>
+                        <p class="article-text">Street photography captures life as it unfolds. Discover how to find
+                            beauty in fleeting moments, candid expressions, and the raw energy of urban landscapes.</p>
+                    </div>
+                    <footer class="article-card-footer">
+                        <span class="article-meta"><i class="fa-solid fa-user" aria-hidden="true"></i> Jordan Blake</span>
+                        <span class="article-meta"><i class="fa-solid fa-calendar" aria-hidden="true"></i><time datetime="2026-01-26">Jan 26, 2026</time></span>
+                    </footer>
+                </article>
+
+            </div>
+
+            <div class="section-link-wrap">
+                <a href="#" class="section-link">View All Stories</a>
+            </div>
+        </section>
+
+        <!-- PODCAST -->
+        <section id="podcast" class="podcast-section" aria-labelledby="podcast-heading">
+            <div class="section-intro">
+                <p class="section-label">Latest Episode</p>
+                <h2 class="section-heading" id="podcast-heading">The FRAME Podcast</h2>
+            </div>
+
+            <div class="podcast-playlist">
+
+                <div class="episode-row">
+                    <div class="episode-badge">
+                        <span class="episode-badge-num">12</span>
+                    </div>
+                    <div class="episode-details">
+                        <h3 class="episode-title">The Art of Visual Storytelling</h3>
+                        <p class="episode-desc">Hosts Sofia Reyes and Marcus Chen explore how photographers and
+                            filmmakers craft compelling visual narratives — from concept to final frame.</p>
+                        <audio class="episode-audio" controls preload="metadata" aria-label="Episode 12: The Art of Visual Storytelling">
+                            <!-- Music by <a href="https://pixabay.com/users/starostin-46826676/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=492540">Viacheslav Starostin</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=492540">Pixabay</a> -->
+                            <source src="assets/audios/starostin-comedy-cartoon.mp3" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                </div>
+
+                <div class="episode-row">
+                    <div class="episode-badge">
+                        <span class="episode-badge-num">11</span>
+                    </div>
+                    <div class="episode-details">
+                        <h3 class="episode-title">Designing for Emotion</h3>
+                        <p class="episode-desc">How top designers use color psychology, typography, and whitespace to
+                            evoke specific feelings and guide user behavior in digital products.</p>
+                        <audio class="episode-audio" controls preload="metadata" aria-label="Episode 13: Designing for Emotion">
+                            <!-- Music by <a href="https://pixabay.com/users/kornevmusic-34073243/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=478847">ANDRII KORNIEV</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=478847">Pixabay</a> -->
+                            <source src="assets/audios/kornevmusic-epic.mp3" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                </div>
+
+                <div class="episode-row">
+                    <div class="episode-badge">
+                        <span class="episode-badge-num">10</span>
+                    </div>
+                    <div class="episode-details">
+                        <h3 class="episode-title">Street Photography After Dark</h3>
+                        <p class="episode-desc">Photographer Jordan Blake shares techniques for capturing urban
+                            nightscapes, handling low light, and finding beauty in the city after dark.</p>
+                        <audio class="episode-audio" controls preload="metadata" aria-label="Episode 14: Street Photography After Dark">
+                            <source src="assets/audios/episode-10.mp3" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="section-link-wrap">
+                <a href="#" class="section-link">Browse All Episodes</a>
+            </div>
+        </section>
+
+        <!-- VIDEO -->
+        <section id="watch" class="video-section" aria-labelledby="video-heading">
+            <div class="section-intro">
+                <p class="section-label">Behind the Lens</p>
+                <h2 class="section-heading" id="video-heading">Watch</h2>
+            </div>
+
+            <div class="video-grid">
+
+                <div class="video-featured">
+                    <div class="video-card">
+                        <video class="feature-video" controls preload="none"
+                            poster="https://picsum.photos/seed/frame-video/800/450" aria-label="How We Shoot: Golden Hour Series">
+                            <source src="assets/videos/behind-the-lens.mp4" type="video/mp4">
+                            Your browser does not support the video element.
+                        </video>
+                        <div class="video-info">
+                            <h3 class="video-title">How We Shoot: Golden Hour Series</h3>
+                            <p class="video-desc">Go behind the scenes with the FRAME crew as we capture the magic of
+                                golden hour — from location scouting and gear setup to the final edit.</p>
+                        </div>
+                    </div>
+                    <div class="video-card">
+                        <video class="feature-video" controls preload="none"
+                            poster="https://picsum.photos/seed/frame-color/800/450" aria-label="Color Grading Secrets: Setting the Mood">
+                            <source src="assets/videos/color-grading.mp4" type="video/mp4">
+                            Your browser does not support the video element.
+                        </video>
+                        <div class="video-info">
+                            <h3 class="video-title">Color Grading Secrets: Setting the Mood</h3>
+                            <p class="video-desc">Watch how the FRAME colorists transform flat footage into cinematic
+                                storytelling using color grading techniques, LUTs, and creative palettes.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-sidebar">
+                    <div class="video-card">
+                        <video class="feature-video" controls preload="none"
+                            poster="https://picsum.photos/seed/frame-studio/800/450" aria-label="Studio Setup Tour: Our Creative Space">
+                            <source src="assets/videos/studio-tour.mp4" type="video/mp4">
+                            Your browser does not support the video element.
+                        </video>
+                        <div class="video-info">
+                            <h3 class="video-title">Studio Setup Tour: Our Creative Space</h3>
+                            <p class="video-desc">Take a tour of the FRAME studio — see the gear, lighting rigs, and
+                                editing stations where every story comes to life.</p>
+                        </div>
+                    </div>
+                    <div class="video-card">
+                        <video class="feature-video" controls preload="none"
+                            poster="https://picsum.photos/seed/frame-editing/800/450" aria-label="Editing Workflow: From Raw to Final Cut">
+                            <source src="assets/videos/editing-workflow.mp4" type="video/mp4">
+                            Your browser does not support the video element.
+                        </video>
+                        <div class="video-info">
+                            <h3 class="video-title">Editing Workflow: From Raw to Final Cut</h3>
+                            <p class="video-desc">Follow the FRAME editors as they transform raw footage into a polished
+                                final piece — from organizing clips and color grading to sound design and the final
+                                export.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="section-link-wrap">
+                <a href="#" class="section-link">Watch More Videos</a>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS -->
+        <section class="testimonial-section" aria-labelledby="testimonial-heading">
+            <div class="section-intro">
+                <p class="section-label">Testimonials</p>
+                <h2 class="section-heading" id="testimonial-heading">What Creators Say</h2>
+            </div>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-stars" role="img" aria-label="5 out of 5 stars">
+                        <i class="fa-solid fa-star" aria-hidden="true"></i><i class="fa-solid fa-star" aria-hidden="true"></i><i
+                            class="fa-solid fa-star" aria-hidden="true"></i><i class="fa-solid fa-star" aria-hidden="true"></i><i
+                            class="fa-solid fa-star" aria-hidden="true"></i>
+                    </div>
+                    <blockquote class="testimonial-text">"The best photographs speak to you even in silence. Every frame
+                        tells a story — your job is to make people stop and listen."</blockquote>
+                    <div class="testimonial-author">
+                        <img src="https://i.pravatar.cc/48?img=32" alt="Sofia Reyes" class="testimonial-avatar">
+                        <div class="testimonial-info">
+                            <cite class="testimonial-name">Sofia Reyes</cite>
+                            <p class="testimonial-role">Visual Director at FRAME</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars" role="img" aria-label="5 out of 5 stars">
+                        <i class="fa-solid fa-star" aria-hidden="true"></i><i class="fa-solid fa-star" aria-hidden="true"></i><i
+                            class="fa-solid fa-star" aria-hidden="true"></i><i class="fa-solid fa-star" aria-hidden="true"></i><i
+                            class="fa-solid fa-star" aria-hidden="true"></i>
+                    </div>
+                    <blockquote class="testimonial-text">"Good design is invisible. Great design is unforgettable. The
+                        difference is the courage to strip everything away until only truth remains."</blockquote>
+                    <div class="testimonial-author">
+                        <img src="https://i.pravatar.cc/48?img=11" alt="Marcus Chen" class="testimonial-avatar">
+                        <div class="testimonial-info">
+                            <cite class="testimonial-name">Marcus Chen</cite>
+                            <p class="testimonial-role">Brand Strategist</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars" role="img" aria-label="5 out of 5 stars">
+                        <i class="fa-solid fa-star" aria-hidden="true"></i><i class="fa-solid fa-star" aria-hidden="true"></i><i
+                            class="fa-solid fa-star" aria-hidden="true"></i><i class="fa-solid fa-star" aria-hidden="true"></i><i
+                            class="fa-solid fa-star" aria-hidden="true"></i>
+                    </div>
+                    <blockquote class="testimonial-text">"The best documentaries make you forget the camera is there.
+                        Real stories need real patience — and the courage to let silence speak."</blockquote>
+                    <div class="testimonial-author">
+                        <img src="https://i.pravatar.cc/48?img=45" alt="Maya Johnson" class="testimonial-avatar">
+                        <div class="testimonial-info">
+                            <cite class="testimonial-name">Maya Johnson</cite>
+                            <p class="testimonial-role">Documentary Filmmaker</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EDITOR'S PICKS -->
+        <section id="picks" class="picks-section" aria-labelledby="picks-heading">
+            <div class="picks-header">
+                <p class="section-label">Editor's Picks</p>
+                <h2 class="section-heading" id="picks-heading">What We're Reading</h2>
+            </div>
+            <div class="picks-grid">
+
+                <!-- Card 1: NAMED COLORS -->
+                <article class="pick-card">
+                    <span class="pick-badge">01</span>
+                    <img src="https://picsum.photos/seed/color-wheel/400/200"
+                        alt="Color theory and color wheel illustration" class="pick-image">
+                    <div class="card-header design-header">
+                        <h3 class="pick-title"><i class="fa-solid fa-palette" aria-hidden="true"></i> Color Theory for Creators</h3>
+                    </div>
+                    <div class="pick-body">
+                        <p class="pick-desc">Understanding color relationships transforms your work. Learn how
+                            complementary, analogous, and triadic schemes create mood.</p>
+                        <a href="#" class="pick-link">Read Article <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                    </div>
+                </article>
+
+                <!-- Card 2: RGB -->
+                <article class="pick-card">
+                    <span class="pick-badge">02</span>
+                    <img src="https://picsum.photos/seed/photo-composition/400/200"
+                        alt="Photography composition leading lines" class="pick-image">
+                    <div class="card-header photo-header">
+                        <h3 class="pick-title"><i class="fa-solid fa-camera" aria-hidden="true"></i> Composition Rules to Break</h3>
+                    </div>
+                    <div class="pick-body">
+                        <p class="pick-desc">The rule of thirds is just the beginning. Discover leading lines, negative
+                            space, and frame-within-frame techniques that elevate your photography.</p>
+                        <a href="#" class="pick-link">Read Article <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                    </div>
+                </article>
+
+                <!-- Card 3: HSL -->
+                <article class="pick-card">
+                    <span class="pick-badge">03</span>
+                    <img src="https://picsum.photos/seed/brand-identity/400/200" alt="Brand identity design elements"
+                        class="pick-image">
+                    <div class="card-header brand-header">
+                        <h3 class="pick-title"><i class="fa-solid fa-pen-nib" aria-hidden="true"></i> Brand Identity Essentials</h3>
+                    </div>
+                    <div class="pick-body">
+                        <p class="pick-desc">Your brand is more than a logo. Explore how typography, color systems, and
+                            visual language create identities that resonate with audiences.</p>
+                        <a href="#" class="pick-link">Read Article <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                    </div>
+                </article>
+
+            </div>
+
+            <div class="section-link-wrap">
+                <a href="#" class="section-link">Explore the Blog</a>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="faq-wrapper" aria-labelledby="faq-heading">
+            <div class="section-intro">
+                <p class="section-label">FAQ</p>
+                <h2 class="section-heading" id="faq-heading">Frequently Asked Questions</h2>
+            </div>
+            <div class="faq-list">
+                <details class="faq-item">
+                    <summary class="faq-question">What is FRAME Magazine?</summary>
+                    <p class="faq-answer">FRAME is a creative media magazine dedicated to visual storytelling. We bring
+                        together photographers, designers, and filmmakers who see the world differently — publishing
+                        original stories, tutorials, and behind-the-scenes features every month.</p>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">How can I submit my work to FRAME?</summary>
+                    <p class="faq-answer">We welcome submissions from creators at every level. Visit our Community page
+                        to learn about our editorial process, submission guidelines, and upcoming themed issues. We
+                        review every submission personally.</p>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">What topics does FRAME cover?</summary>
+                    <p class="faq-answer">FRAME covers photography, graphic design, branding, filmmaking, and visual
+                        culture. From golden hour techniques to brand identity systems — if it's visual and creative, it
+                        belongs here.</p>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">Is there a free subscription option?</summary>
+                    <p class="faq-answer">Yes! Our core articles and community features are completely free. Premium
+                        subscribers get early access to new stories, exclusive tutorials, downloadable resources, and
+                        invitations to creator events.</p>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">How do I join the FRAME community?</summary>
+                    <p class="faq-answer">Click the Subscribe button in the navigation or the Join FRAME button below.
+                        You'll get access to our creator community, weekly newsletters, and a growing library of visual
+                        storytelling resources.</p>
+                </details>
+            </div>
+        </section>
+
+        <!-- CTA SECTION -->
+        <section id="cta" class="cta-section" aria-labelledby="cta-heading">
+            <div class="cta-overlay">
+                <h2 class="cta-title" id="cta-heading">Ready to Create<br>Something Beautiful?</h2>
+                <p class="cta-text">Join thousands of creators who use FRAME as their daily source of inspiration.</p>
+                <a href="#" class="cta-button" data-subscribe aria-haspopup="dialog">Join FRAME <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+        </section>
+
+        <!-- GET IN TOUCH -->
+        <section class="contact-section" aria-labelledby="contact-heading">
+            <div class="contact-container">
+                <div class="contact-info">
+                    <p class="section-label"><i class="fa-solid fa-envelope"></i> Contact</p>
+                    <h2 class="contact-heading" id="contact-heading">Get in Touch</h2>
+                    <p class="contact-desc">Have a question, idea, or story to share? We'd love to hear from you. Drop
+                        us a message and our team will get back to you soon.</p>
+                    <img src="https://picsum.photos/seed/frame-contact/500/300"
+                        alt="Creative workspace with camera and notebook" class="contact-image">
+                </div>
+                <div class="contact-form-wrapper">
+                    <form class="contact-form">
+                        <label class="form-label" for="contact-name">Your Name</label>
+                        <input type="text" id="contact-name" class="form-input" placeholder="Enter your name" required autocomplete="name" aria-required="true">
+                        <label class="form-label" for="contact-email">Email Address</label>
+                        <input type="email" id="contact-email" class="form-input" placeholder="Enter your email" required autocomplete="email" aria-required="true">
+                        <label class="form-label" for="contact-file">Attach a File (Optional)</label>
+                        <input type="file" id="contact-file" class="form-input" placeholder="Attach a file (optional)">
+                        <label class="form-label" for="contact-message">Your Message</label>
+                        <textarea id="contact-message" class="form-textarea"
+                            placeholder="Tell us what's on your mind..." rows="5" required aria-required="true"></textarea>
+                        <button type="submit" class="form-button">Send Message <i class="fa-solid fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="page-footer">
+        <div class="footer-columns">
+            <div class="footer-col">
+                <p class="footer-brand"><i class="fa-solid fa-camera" aria-hidden="true"></i> FRAME</p>
+                <p class="footer-tagline">Visual stories. Bold perspectives.</p>
+            </div>
+            <div class="footer-col">
+                <p class="footer-col-title">Explore</p>
+                <nav class="footer-nav" aria-label="Explore links">
+                    <a href="#" class="footer-link">Stories</a>
+                    <a href="#" class="footer-link">Blog</a>
+                    <a href="#" class="footer-link">Podcast</a>
+                    <a href="#" class="footer-link">Gallery</a>
+                </nav>
+            </div>
+            <div class="footer-col">
+                <p class="footer-col-title">Company</p>
+                <nav class="footer-nav" aria-label="Company links">
+                    <a href="#" class="footer-link">About</a>
+                    <a href="#" class="footer-link">Videos</a>
+                    <a href="#" class="footer-link">Contact</a>
+                </nav>
+            </div>
+            <div class="footer-col">
+                <p class="footer-col-title">Follow Us</p>
+                <div class="footer-social">
+                    <a href="#" class="social-link" aria-label="Follow us on Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+                    <a href="#" class="social-link" aria-label="Follow us on X (Twitter)"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i></a>
+                    <a href="#" class="social-link" aria-label="Follow us on Snapchat"><i class="fa-brands fa-snapchat" aria-hidden="true"></i></a>
+                    <a href="#" class="social-link" aria-label="Follow us on TikTok"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></a>
+                    <a href="#" class="social-link" aria-label="Follow us on YouTube"><i class="fa-brands fa-youtube" aria-hidden="true"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="footer-copy">&copy; 2026 FRAME Magazine. Built by CMI-3315-002 Web Designers <i class="fa-solid fa-code" aria-hidden="true"></i></p>
+        </div>
+    </footer>
+
+    <a href="#" class="back-to-top" title="Back to Top" aria-label="Back to Top"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></a>
+
+    <!-- SUBSCRIBE MODAL -->
+    <div class="subscribe-modal" id="subscribe-modal" role="dialog" aria-modal="true" aria-labelledby="modal-heading" hidden>
+        <div class="modal-overlay" id="modal-overlay"></div>
+        <div class="modal-box">
+            <button class="modal-close" id="modal-close" aria-label="Close subscribe modal">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+
+            <!-- Form state -->
+            <div id="modal-form-state">
+                <p class="section-label"><i class="fa-solid fa-envelope" aria-hidden="true"></i> Newsletter</p>
+                <h2 class="modal-heading" id="modal-heading">Join the FRAME<br>Community</h2>
+                <p class="modal-desc">Get exclusive stories, tutorials, and behind-the-scenes content delivered to your inbox every week.</p>
+                <form class="modal-form" id="subscribe-form" novalidate>
+                    <label class="form-label" for="modal-name">Your Name</label>
+                    <input type="text" id="modal-name" class="form-input" placeholder="Enter your name" required autocomplete="name" aria-required="true">
+                    <label class="form-label" for="modal-email">Email Address</label>
+                    <input type="email" id="modal-email" class="form-input" placeholder="Enter your email" required autocomplete="email" aria-required="true">
+                    <div class="modal-plan-row" role="group" aria-label="Choose a plan">
+                        <label class="plan-option">
+                            <input type="radio" name="plan" value="free" checked>
+                            <span class="plan-label">Free</span>
+                            <span class="plan-desc">Core articles + community</span>
+                        </label>
+                        <label class="plan-option">
+                            <input type="radio" name="plan" value="premium">
+                            <span class="plan-label">Premium</span>
+                            <span class="plan-desc">Everything + exclusives</span>
+                        </label>
+                    </div>
+                    <button type="submit" class="form-button modal-submit">Subscribe Now <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+                </form>
+            </div>
+
+            <!-- Success state -->
+            <div class="modal-success" id="modal-success" hidden aria-live="polite">
+                <i class="fa-solid fa-circle-check success-icon" aria-hidden="true"></i>
+                <h3>You're in!</h3>
+                <p>Welcome to FRAME. Check your inbox for a confirmation email.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            const modal    = document.getElementById('subscribe-modal');
+            const overlay  = document.getElementById('modal-overlay');
+            const closeBtn = document.getElementById('modal-close');
+            const form     = document.getElementById('subscribe-form');
+            const formState = document.getElementById('modal-form-state');
+            const success  = document.getElementById('modal-success');
+            const triggers = document.querySelectorAll('[data-subscribe]');
+
+            function openModal() {
+                modal.removeAttribute('hidden');
+                document.body.style.overflow = 'hidden';
+                closeBtn.focus();
+            }
+
+            function closeModal() {
+                modal.setAttribute('hidden', '');
+                document.body.style.overflow = '';
+                /* reset to form state for next open */
+                formState.removeAttribute('hidden');
+                success.setAttribute('hidden', '');
+                form.reset();
+            }
+
+            triggers.forEach(t => t.addEventListener('click', e => {
+                e.preventDefault();
+                openModal();
+            }));
+
+            overlay.addEventListener('click', closeModal);
+            closeBtn.addEventListener('click', closeModal);
+
+            document.addEventListener('keydown', e => {
+                if (e.key === 'Escape' && !modal.hasAttribute('hidden')) closeModal();
+            });
+
+            form.addEventListener('submit', e => {
+                e.preventDefault();
+                formState.setAttribute('hidden', '');
+                success.removeAttribute('hidden');
+                setTimeout(closeModal, 2800);
+            });
+
+            /* focus trap */
+            modal.addEventListener('keydown', e => {
+                if (e.key !== 'Tab') return;
+                const focusable = Array.from(modal.querySelectorAll(
+                    'button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
+                )).filter(el => !el.closest('[hidden]'));
+                if (!focusable.length) return;
+                const first = focusable[0];
+                const last  = focusable[focusable.length - 1];
+                if (e.shiftKey && document.activeElement === first) {
+                    e.preventDefault(); last.focus();
+                } else if (!e.shiftKey && document.activeElement === last) {
+                    e.preventDefault(); first.focus();
+                }
+            });
+        })();
+    </script>
+
+</body>
+
+</html>
